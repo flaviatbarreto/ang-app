@@ -6,13 +6,12 @@ router.get('/', function (req, res, next) {
     res.render('message');
 });
 
-router.post('/message', function (req, res, next) {
-    var email =  req.body.email;
+router.post('/', function (req, res, next) {
     var user = new User({
         firstName: 'Flávia',
         lastName: 'Barreto',
         password: '123',
-        email: email
+        email: req.body.email
     });
     user.save();
     res.redirect('/');
