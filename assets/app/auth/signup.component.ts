@@ -13,15 +13,6 @@ export class SignupComponent implements onInit {
 
     constructor(private authService: AuthService) {}
 
-    ngOnInit() {
-        this.myForm = new FormGroup({
-            firstName: new FormControl(null, Validators.required),
-            lastName: new FormControl(null, Validators.required),
-            email: new FormControl(null, [Validators.required]),
-            password: new FormControl(null, Validators.required)
-        })
-    }
-
     onSubmit() {
         const user = new User(
             this.myForm.value.email,
@@ -36,5 +27,14 @@ export class SignupComponent implements onInit {
                 error => console.error(error)
             );
         this.myForm.reset()
+    }
+
+    ngOnInit() {
+        this.myForm = new FormGroup({
+            firstName: new FormControl(null, Validators.required),
+            lastName: new FormControl(null, Validators.required),
+            email: new FormControl(null, [Validators.required]),
+            password: new FormControl(null, Validators.required)
+        })
     }
 }
