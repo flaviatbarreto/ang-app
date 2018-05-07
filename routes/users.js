@@ -51,7 +51,7 @@ router.post('/signin', (req, res, next) => {
             })
         }
 
-        var token = jwt.sign({user: user}, 'scret123', {expiresIn: 7200});
+        var token = jwt.sign({user: user}, 'secret123', {expiresIn: 7200});
 
         res.status(200).json({
             message: 'Succesfully logged in',
