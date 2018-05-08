@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var router = express.Router();
 
 var Message = require('../models/message')
+var User = require('../models/user')
 
 router.get('/', function(req, res, next) {
     Message.find()
@@ -35,11 +36,9 @@ router.use('/', (req, res, next) => {
 })
 
 router.post('/', function (req, res, next) {
-    var message = new Message({
-        content: req.body.content
-    })
+    var decoded = jwt.decode(req.query.token)
 
-    message.save(function(err, result){
+    User.findById(decoded.user._id, (err, user) => {
         if(err){
             return res.status(500).json({
                 title: "An error occurred",
@@ -47,9 +46,24 @@ router.post('/', function (req, res, next) {
             })
         }
 
-        res.status(201).json({
-            message: "Message saved successfully",
-            obj: result
+        var message = new Message({
+            content: req.body.content,
+            user: user
+        })
+
+        message.save(function(err, result){
+            if(err){
+                return res.status(500).json({
+                    title: "An error occurred",
+                    error: err
+                })
+            }
+            user.messages.push(result);
+            user.save();
+            res.status(201).json({
+                message: "Message saved successfully",
+                obj: result
+            })
         })
     })
 });
