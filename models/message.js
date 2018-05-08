@@ -10,7 +10,7 @@ var schema = new Schema({
 
 schema.post('remove', (message) => {
     User.findById(message.user, (err, user) => {
-        user.messages.pull(message)
+        user.messages.pull(message._id)
         user.save()
     })
 })
