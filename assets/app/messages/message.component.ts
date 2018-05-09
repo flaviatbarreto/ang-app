@@ -35,4 +35,8 @@ export class MessageComponent {
         this.messageService.deleteMessage(this.message)
             .subscribe( result => console.log(result));
     }
+
+    belongsToUser() {
+        return localStorage.getItem('userID') == this.message.userId;
+    }
 }
